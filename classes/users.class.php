@@ -56,9 +56,9 @@ class Users
 
     public static function verify()
     {
-        $headers = getallheaders();
-        if (isset($headers['authorization'])) {
-            $token = str_replace("Bearer ", "", $headers['authorization']);
+        $headers = apache_request_headers();
+        if (isset($headers['Authorization'])) {
+            $token = str_replace("Bearer ", "", $headers['Authorization']);
         } else {
             echo json_encode(['ERROR' => 'You are not authorized!']);
             exit;
