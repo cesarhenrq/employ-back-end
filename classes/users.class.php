@@ -3,13 +3,16 @@ class Users
 {
     public static function login()
     {
-        if ($_POST) {
-            if (!$_POST['email'] OR !$_POST['password']) {
+        $requestBody = file_get_contents('php://input');
+        $data = json_decode($requestBody, true);
+        
+        if ($data) {
+            if (!isset($data['email']) || !isset($data['password'])) {
                 echo json_encode(['ERROR' => 'Further information required!']);
                 exit;
             } else {
-                $email = $_POST['email'];
-                $password = $_POST['password'];
+                $email = $data['email'];
+                $password = $data['password'];
                 $secretJWT = $GLOBALS['secretJWT'];
 
                 $db = DB::connect();
