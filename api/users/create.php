@@ -1,4 +1,17 @@
 <?php
+$email = $_POST['email'];
+
+$db = DB::connect();
+$stmt = $db->prepare("SELECT * FROM users WHERE email=:email");
+$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+$stmt->execute();
+$obj = $stmt->fetch(PDO::FETCH_OBJ);
+
+if ($obj) {
+    echo json_encode(["message" => "User already exists!"]);
+    exit;
+}
+
 $sql = "INSERT INTO users (";
 
 $count = 1;
