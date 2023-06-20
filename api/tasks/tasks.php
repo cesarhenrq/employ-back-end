@@ -1,7 +1,10 @@
 <?php
    if ($api == 'tasks') {
-    if ($method == 'GET') {
-        var_dump("it works!");
+    if (Users::verify()) {
+        if ($method == 'GET' && $action == 'get') {
+            include_once 'get.php';
+        }
     }
+    
 }
 ?>
