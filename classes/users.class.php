@@ -1,7 +1,7 @@
 <?php
 class Users
 {
-    public function login()
+    public static function login()
     {
         if ($_POST) {
             if (!$_POST['email'] OR !$_POST['password']) {
@@ -51,7 +51,7 @@ class Users
         }
     }
 
-    public function verify()
+    public static function verify()
     {
         $headers = getallheaders();
         if (isset($headers['authorization'])) {
