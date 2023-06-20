@@ -16,7 +16,7 @@ if ($obj) {
 
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO users (email, password) VALUES (:name, :email, :password)";
+$sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
 $stmt = $db->prepare($sql);
 $stmt->bindValue(':name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':email', $email, PDO::PARAM_STR);
