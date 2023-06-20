@@ -1,6 +1,7 @@
 <?php
 $email = $_POST['email'];
 $password = $_POST['password'];
+$name = $_POST['name'];
 
 $db = DB::connect();
 $stmt = $db->prepare("SELECT * FROM users WHERE email=:email");
@@ -15,8 +16,9 @@ if ($obj) {
 
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
+$sql = "INSERT INTO users (email, password) VALUES (:name, :email, :password)";
 $stmt = $db->prepare($sql);
+$stmt->bindValue(':name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':email', $email, PDO::PARAM_STR);
 $stmt->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
 $exec = $stmt->execute();
