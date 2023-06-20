@@ -1,5 +1,6 @@
 <?php
 $email = $_POST['email'];
+$password = $_POST['password'];
 
 $db = DB::connect();
 $stmt = $db->prepare("SELECT * FROM users WHERE email=:email");
@@ -12,34 +13,12 @@ if ($obj) {
     exit;
 }
 
-$sql = "INSERT INTO users (";
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-$count = 1;
-foreach (array_keys($_POST) as $key) {
-    if (count($_POST) > $count) {
-        $sql .= "{$key},";
-    } else {
-        $sql .= "{$key}";
-    }
-    $count++;
-}
-
-$sql .= ") VALUES (";
-
-$count = 1;
-foreach (array_values($_POST) as $value) {
-    if (count($_POST) > $count) {
-        $sql .= "'{$value}',";
-    } else {
-        $sql .= "'{$value}'";
-    }
-    $count++;
-}
-
-$sql .= ")";
-
-$db = DB::connect();
+$sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
 $stmt = $db->prepare($sql);
+$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+$stmt->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
 $exec = $stmt->execute();
 
 if ($exec) {
