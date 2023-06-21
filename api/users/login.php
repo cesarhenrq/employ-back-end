@@ -1,3 +1,3 @@
 <?php
-Users::login($_POST['email'], $_POST['password']);
+Users::login();
 exit;

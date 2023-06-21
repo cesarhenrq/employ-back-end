@@ -8,24 +8,21 @@ if (isset($headers['Authorization'])) {
     exit;
 }
 
+$id = $param;
+
 try {
     $decodedToken = JWT::decode($token, $secretJWT);
     $user_id = $decodedToken->id;
 
-    $currentPage = $_GET['page'] ?? 1;
-    $pageSize = $_GET['size'] ?? 10;
-
-    $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id LIMIT :limit OFFSET :offset");
+    $stmt = $db->prepare("DELETE FROM tasks WHERE id = :id AND user_id = :user_id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', ($currentPage - 1) * $pageSize, PDO::PARAM_INT);
-    $stmt->execute();
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $exec = $stmt->execute();
 
-    if ($tasks) {
-        echo json_encode(["data" => $tasks]);
+    if ($exec) {
+        echo json_encode(["message" => "Task deleted!"]);
     } else {
-        echo json_encode(["data" => "No tasks found for this user!"]);
+        echo json_encode(["message" => "Some error occurred and the task hasn't been deleted!"]);
     }
 } catch (Exception $e) {
     echo json_encode(["message" => "Invalid token"]);
