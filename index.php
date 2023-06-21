@@ -1,8 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: POST, GET");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/json');
 
 date_default_timezone_set('America/Sao_Paulo');
