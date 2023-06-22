@@ -5,7 +5,7 @@
             include_once 'get.php';
         } elseif ($method == 'POST' && $action == 'create') {
             include_once 'create.php';
-        } elseif ($method == 'POST' && $action == 'update') {
+        } elseif ($method == 'POST' && $action == 'update' && $param) {
             include_once 'update.php';
         } elseif ($method == 'POST' && $action == 'delete' && $param) {
             include_once 'delete.php';
