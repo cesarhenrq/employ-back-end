@@ -14,8 +14,8 @@ try {
 
     echo json_encode(["id" => $user_id]);
 
-    $currentPage = $_GET['page'] ?? 1;
-    $pageSize = $_GET['size'] ?? 10;
+    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+    $pageSize = isset($_GET['size']) ? $_GET['size'] : 10;
 
     $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id LIMIT :limit OFFSET :offset");
     echo json_encode(["message" => "passou 1"]);
