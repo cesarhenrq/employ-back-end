@@ -67,9 +67,7 @@ class Users
         $secretJWT = $GLOBALS['secretJWT'];
 
         if ($token) {
-            echo json_encode(['message' => "Passou aqui"]);
             $decodedJWT = JWT::decode($token, $secretJWT);
-            echo json_encode(['message' => $decodedJWT]);
             if ($decodedJWT->expires_in > time()) {
                 return true;
             } else {
