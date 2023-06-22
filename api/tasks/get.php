@@ -12,6 +12,7 @@ try {
     $decodedToken = JWT::decode($token, $secretJWT);
     $user_id = $decodedToken->id;
 
+    $db = DB::connect();
     echo json_encode(["message" => "Passou aqui"]);
     $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id");
     echo json_encode(["message" => "Passou aqui"]);
