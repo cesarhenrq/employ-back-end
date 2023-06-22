@@ -14,6 +14,7 @@ try {
     $decodedToken = JWT::decode($token, $secretJWT);
     $user_id = $decodedToken->id;
 
+    $db = DB::connect();
     $stmt = $db->prepare("DELETE FROM tasks WHERE id = :id AND user_id = :user_id");
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
