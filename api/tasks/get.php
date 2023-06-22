@@ -12,23 +12,10 @@ try {
     $decodedToken = JWT::decode($token, $secretJWT);
     $user_id = $decodedToken->id;
 
-    echo json_encode(["id" => $user_id]);
-
-    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
-    $pageSize = isset($_GET['size']) ? $_GET['size'] : 10;
-
-    $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id LIMIT :limit OFFSET :offset");
-    echo json_encode(["message" => "passou 1"]);
+    $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id");
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    echo json_encode(["message" => "passou 2"]);
-    $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
-    echo json_encode(["message" => "passou 3"]);
-    $stmt->bindValue(':offset', ($currentPage - 1) * $pageSize, PDO::PARAM_INT);
-    echo json_encode(["message" => "passou 4"]);
     $stmt->execute();
-    echo json_encode(["message" => "passou 5"]);
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode(["message" => "passou 6"]);
 
     if ($tasks) {
         echo json_encode(["data" => $tasks]);
