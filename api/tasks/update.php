@@ -15,13 +15,17 @@ if($data) {
     $title = $data['title'];
     $description = $data['description'];
     $status = $data['status'];
+    $id = $param;
 
     try {
         $decodedToken = JWT::decode($token, $secretJWT);
         $user_id = $decodedToken->id;
 
+        $db = DB::connect();
+
         $stmt = $db->prepare("UPDATE tasks SET title = :title, description = :description, status = :status WHERE id = :id AND user_id = :user_id");
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':title', $title, PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->bindValue(':status', $status, PDO::PARAM_STR);

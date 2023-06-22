@@ -25,6 +25,7 @@ if($data) {
         $decodedToken = JWT::decode($token, $secretJWT);
         $user_id = $decodedToken->id;
 
+        $db = DB::connect();
         $stmt = $db->prepare("INSERT INTO tasks (user_id, title, description, status) VALUES (:user_id, :title, :description, :status)");
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindValue(':title', $title, PDO::PARAM_STR);

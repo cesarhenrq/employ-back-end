@@ -12,13 +12,9 @@ try {
     $decodedToken = JWT::decode($token, $secretJWT);
     $user_id = $decodedToken->id;
 
-    $currentPage = $_GET['page'] ?? 1;
-    $pageSize = $_GET['size'] ?? 10;
-
-    $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id LIMIT :limit OFFSET :offset");
+    $db = DB::connect();
+    $stmt = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id");
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', ($currentPage - 1) * $pageSize, PDO::PARAM_INT);
     $stmt->execute();
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
